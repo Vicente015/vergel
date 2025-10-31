@@ -12,14 +12,56 @@ const { Content } = hasContent && aboutEntry ? await render(aboutEntry) : { Cont
 
 {
   hasContent && Content && (
-    <div class="about prose">
+    <main class="about prose">
+      <section class="introduction">
+        <img src="/IlexCanariensis.png" width="99" />
+        <div>
+          <p>Hola, soy</p>
+          <h4>Vicente</h4>
+        </div>
+      </section>
+
       <Content />
-    </div>
+    </main>
   )
 }
 
 <style>
   .about:not(:empty) {
+    display: flex;
     margin-bottom: 1.25rem;
+  }
+
+  .about {
+    & .introduction {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 2rem;
+
+      & img {
+        image-rendering: auto;
+      }
+
+      & * {
+        margin: 0;
+        padding: 0;
+      }
+
+      & p {
+        font-size: 1.8rem;
+        font-weight: 500;
+        line-height: 1;
+        margin-bottom: .4rem;
+      }
+
+      & h4 {
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 1;
+      }
+    }
   }
 </style>
