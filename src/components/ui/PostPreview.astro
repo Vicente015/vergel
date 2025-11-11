@@ -1,0 +1,75 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+const { post } = Astro.props as { post: CollectionEntry<'posts'> }
+---
+
+<article>
+  <header>
+    <div class="gallery">
+      {post.rendered?.metadata?.imagePaths.map((imgPath) => (
+        <img src={imgPath.replace('./_assets/', '/')} alt='todo' />
+      ))}
+    </div>
+  </header>
+  <p>{post.data.title}</p>
+  <main set:html={post.body ?? ''}></main>
+
+  <footer>
+    <span class="pubDate">
+      {dayjs(post.data.pubDate).format('D MMM')}
+    </span>
+  </footer>
+</article>
+
+<style>
+  article main {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 10;
+    text-wrap: balance;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: black;
+  }
+
+  .pubDate {
+
+  }
+
+  .gallery {
+    display: grid;
+    gap: 10px;
+    grid-auto-rows: 200px; /* uniform height */
+  }
+
+  .gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* 1 image: full width */
+  .gallery img:nth-last-child(1):first-child {
+    grid-column: 1 / -1;
+  }
+
+  /* 2 images: side by side */
+  .gallery img:nth-last-child(2):first-child,
+  .gallery img:nth-last-child(2):first-child ~ img {
+    grid-column: span 1;
+  }
+
+  /* 3 images: left full, right split */
+  .gallery img:nth-last-child(3):first-child {
+    grid-column: 1;
+    grid-row: 1 / 3;
+  }
+
+  .gallery img:nth-last-child(3):first-child ~ img {
+    grid-column: 2;
+    grid-row: span 1;
+  }
+
+</style>
