@@ -1,7 +1,5 @@
 ---
-import FormattedDate from '@/components/widgets/FormattedDate.astro'
 import type { PostListProps } from '@/types'
-import { themeConfig } from '@/config'
 import PostPreview from '../ui/PostPreview.astro'
 
 const { posts } = Astro.props as PostListProps
@@ -28,5 +26,14 @@ const { posts } = Astro.props as PostListProps
     display: flex;
     flex-direction: column;
     gap: 0;
+  }
+
+  li {
+    margin: 0.8rem 0;
+  }
+
+  * {
+    color: var(--text-primary);
+    text-decoration: none;
   }
 </style>

@@ -10,7 +10,9 @@ const posts = defineCollection({
       title: z.string(),
       // Transform string to Date object
       pubDate: z.coerce.date(),
-      image: z.string().optional()
+      image: z.string().optional(),
+      location: z.string().optional(),
+      likes: z.number().optional()
     })
 })
 

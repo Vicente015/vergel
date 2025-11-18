@@ -1,75 +1,237 @@
 ---
-import type { CollectionEntry } from "astro:content";
+
+import type { CollectionEntry } from 'astro:content'
+import dayjs from 'dayjs'
+import localizedPlugin from 'dayjs/plugin/localizedFormat'
+import removeMarkdown from 'remove-markdown'
+import { Image } from 'astro:assets'
+import path from 'node:path'
+import LocationIcon from '@lucide/astro/icons/map-pin';
+import HeartIcon from '@lucide/astro/icons/heart';
+
+import('dayjs/locale/es')
+
+dayjs.extend(localizedPlugin)
+dayjs.locale('es')
 
 const { post } = Astro.props as { post: CollectionEntry<'posts'> }
+
+let images =
+  post.rendered?.metadata?.imagePaths.map(
+    (imagePath) =>
+      '@fs' +
+      path.resolve(
+        path.join(post.filePath!.split('/').slice(0, -1).join('/'), imagePath.replace('./', '/'))
+      )
+  ) ?? []
+
+images = images.slice(0, 4)
+
+const cleanBody = removeMarkdown(post.body!)
+const lines = cleanBody.trim().split('\n');
+const preview = lines.slice(0, 5).join('\n');
 ---
 
-<article>
-  <header>
-    <div class="gallery">
-      {post.rendered?.metadata?.imagePaths.map((imgPath) => (
-        <img src={imgPath.replace('./_assets/', '/')} alt='todo' />
-      ))}
-    </div>
+<article class="postPreview">
+  <header class="header">
+    {
+      images && images.length > 0 && (
+        <div class="gallery">
+          {
+            images.map((imgPath) => {
+              return <Image src={imgPath} alt={imgPath} />
+            })
+          }
+        </div>
+      )
+    }
   </header>
-  <p>{post.data.title}</p>
-  <main set:html={post.body ?? ''}></main>
 
-  <footer>
-    <span class="pubDate">
-      {dayjs(post.data.pubDate).format('D MMM')}
+  <p class="title">{post.data.title}</p>
+  <main class="summary">
+    <p>{preview}</p>
+  </main>
+
+  <footer class="footer">
+    <span class="publishDate">
+      {dayjs(post.data.pubDate).format('DD MMMM')}
     </span>
+
+    {post.data.location && (
+      <div class="location">
+        <LocationIcon size='1.1em' stroke-width={1.2}/>
+        <span>{post.data.location}</span>
+    </div>
+    )}
+
+     {post.data.likes && (
+      <div class="likes">
+        <HeartIcon size="1.1em" stroke-width={1.2} />
+        <span>{post.data.likes}</span>
+      </div>
+     )}
   </footer>
 </article>
 
 <style>
-  article main {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 10;
-    text-wrap: balance;
-    overflow-wrap: break-word;
-    line-height: 1.5;
-    color: black;
+  .icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    color: var(--text-tertiary);
   }
 
-  .pubDate {
+  .postPreview {
+    display: flex;
+    flex-direction: column;
 
+    & .header {
+      margin-bottom: var(--spacing-s);
+    }
+
+    & .gallery {
+      display: grid;
+      max-height: 320px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 14px 0;
+      border: 1px solid var(--border);
+      margin: 12px 0;
+      gap: 1px;
+      background: var(--border);
+
+      & img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    & .gallery:has(> :last-child:nth-child(1)) {
+      grid-template-columns: 1fr;
+      grid-template-rows: minmax(0, 320px);
+    }
+
+    & .gallery:has(> :last-child:nth-child(2)) {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: minmax(0, 320px);
+    }
+
+    & .gallery:has(> :last-child:nth-child(3)) {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+
+      & > :nth-child(1) {
+        grid-column: 1;
+        grid-row: 1 / 3;
+      }
+
+      & > :nth-child(2) {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      & > :nth-child(3) {
+        grid-column: 2;
+        grid-row: 2;
+      }
+    }
+
+    & .gallery:has(> :last-child:nth-child(4)) {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+
+      & > :nth-child(1) {
+        grid-column: 1 / 3;
+        grid-row: 1 / 3;
+      }
+
+      & > :nth-child(2) {
+        grid-column: 3 / 5;
+        grid-row: 1;
+      }
+
+      & > :nth-child(3) {
+        grid-column: 3;
+        grid-row: 2;
+      }
+
+      & > :nth-child(4) {
+        grid-column: 4;
+        grid-row: 2;
+      }
+    }
+
+    & .title {
+      color: var(--text-primary);
+      font-weight: 500;
+      font-size: var(--font-size-l);
+      line-height: var(--leading-loose);
+      -webkit-line-clamp: 3;
+      text-wrap: pretty;
+      overflow-wrap: break-word;
+      margin: 0;
+      padding: 0;
+    }
+
+    & .summary {
+      color: var(--text-secondary);
+      font-size: var(--font-size-m);
+      line-height: var(--leading-snug);
+      text-wrap: balance;
+      overflow-wrap: anywhere;
+
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+
+      & p {
+        margin: 0.2rem 0;
+        padding: 0;
+      }
+    }
+
+    & .footer {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-tertiary);
+      margin: 0.2rem 0;
+
+      & .location {
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+        align-items: center;
+
+        & span {
+          padding: 0;
+          margin: 0;
+          font-size: var(--font-size-s);
+          line-height: 1;
+        }
+      }
+
+      & .likes {
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+        align-items: center;
+
+        & span {
+          padding: 0;
+          margin: 0;
+          font-size: var(--font-size-s);
+          line-height: 1;
+        }
+      }
+
+      & .publishDate {
+        color: var(--text-tertiary);
+        font-size: var(--font-size-s);
+      }
+    }
   }
-
-  .gallery {
-    display: grid;
-    gap: 10px;
-    grid-auto-rows: 200px; /* uniform height */
-  }
-
-  .gallery img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  /* 1 image: full width */
-  .gallery img:nth-last-child(1):first-child {
-    grid-column: 1 / -1;
-  }
-
-  /* 2 images: side by side */
-  .gallery img:nth-last-child(2):first-child,
-  .gallery img:nth-last-child(2):first-child ~ img {
-    grid-column: span 1;
-  }
-
-  /* 3 images: left full, right split */
-  .gallery img:nth-last-child(3):first-child {
-    grid-column: 1;
-    grid-row: 1 / 3;
-  }
-
-  .gallery img:nth-last-child(3):first-child ~ img {
-    grid-column: 2;
-    grid-row: span 1;
-  }
-
 </style>

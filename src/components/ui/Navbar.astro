@@ -1,0 +1,71 @@
+---
+type FeedType = {
+  name: string
+  path: string
+}
+
+const feeds: FeedType[] = [
+  {
+    name: 'Todo',
+    path: '/'
+  },
+  {
+    name: 'Notas',
+    path: '/notes'
+  },
+  {
+    name: 'Fotos',
+    path: '/photos'
+  }
+]
+
+const currentPath = Astro.url.pathname
+---
+
+<nav class="navbar">
+  <ul class="navbar-list">
+    {
+      feeds.map((feed) => (
+        <li class="navbar-item">
+          <a class="navbar-link" href={feed.path} data-active={currentPath === feed.path}>
+            {feed.name}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style is:inline>
+  .navbar-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--text-secondary);
+  }
+
+  .navbar-item {
+    margin: 0;
+    padding: 0 14px;
+
+    &:hover {
+      background-color: var(--text-tertiary);
+    }
+  }
+
+  .navbar-link {
+    text-decoration: none;
+    color: var(--text-primary);
+
+    &[data-active='true'] {
+      font-weight: 700;
+      padding-bottom: 5px;
+      border-bottom: 4px solid var(--text-secondary);
+    }
+  }
+</style>

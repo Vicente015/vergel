@@ -20,6 +20,9 @@ importers:
       '@astrojs/sitemap':
         specifier: ^3.6.0
         version: 3.6.0
+      '@lucide/astro':
+        specifier: ^0.553.0
+        version: 0.553.0(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1))
       '@playform/inline':
         specifier: ^0.1.2
         version: 0.1.2(@netlify/blobs@10.0.11)(@types/node@24.5.2)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)
@@ -62,6 +65,9 @@ importers:
       remark-math:
         specifier: ^6.0.0
         version: 6.0.0
+      remove-markdown:
+        specifier: ^0.6.2
+        version: 0.6.2
       sanitize-html:
         specifier: ^2.17.0
         version: 2.17.0
@@ -558,6 +564,11 @@ packages:
 
   '@jridgewell/sourcemap-codec@1.5.5':
     resolution: {integrity: sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==}
+
+  '@lucide/astro@0.553.0':
+    resolution: {integrity: sha512-yiHpOKGBPOy+pmZfkQmZcFAETU8FvkqWdoLCboSZGuZ1zgwFHGxBmr/brmk5PxVFOUnImzsRFGzAX2O2A88hmQ==}
+    peerDependencies:
+      astro: ^4 || ^5
 
   '@mapbox/node-pre-gyp@2.0.0':
     resolution: {integrity: sha512-llMXd39jtP0HpQLVI37Bf1m2ADlEb35GYSh1SDSLsBhR+5iCxiNGlT31yqbNtVHygHAtMy6dWFERpU2JgufhPg==}
@@ -3163,6 +3174,9 @@ packages:
   remark-stringify@11.0.0:
     resolution: {integrity: sha512-1OSmLd3awB/t8qdoEOMazZkNsfVTeY4fTsgzcQFdXNq8ToTN4ZGwrMnlda4K6smTFKD+GRV6O48i6Z4iKgPPpw==}
 
+  remove-markdown@0.6.2:
+    resolution: {integrity: sha512-EijDXJZbzpGbQBd852ViUzcqgpMujthM+SAEHiWCMcZonRbZ+xViWKLJA/vrwbDwYdxrs1aFDjpBhcGrZoJRGA==}
+
   remove-trailing-separator@1.1.0:
     resolution: {integrity: sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==}
 
@@ -4272,6 +4286,10 @@ snapshots:
       minipass: 7.1.2
 
   '@jridgewell/sourcemap-codec@1.5.5': {}
+
+  '@lucide/astro@0.553.0(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1))':
+    dependencies:
+      astro: 5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)
 
   '@mapbox/node-pre-gyp@2.0.0':
     dependencies:
@@ -7823,6 +7841,8 @@ snapshots:
       '@types/mdast': 4.0.4
       mdast-util-to-markdown: 2.1.2
       unified: 11.0.5
+
+  remove-markdown@0.6.2: {}
 
   remove-trailing-separator@1.1.0: {}
 
