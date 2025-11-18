@@ -47,9 +47,9 @@ const preview = lines.slice(0, 5).join('\n');
     }
   </header>
 
-  <p class="title">{post.data.title}</p>
+
   <main class="summary">
-    <p>{preview}</p>
+     <p><span class="title">{post.data.title}</span> {preview}</p>
   </main>
 
   <footer class="footer">
@@ -92,11 +92,10 @@ const preview = lines.slice(0, 5).join('\n');
     & .gallery {
       display: grid;
       max-height: 320px;
-      border-radius: 12px;
+      border-radius: 6px;
       overflow: hidden;
-      margin: 14px 0;
+      margin: 12px -1rem;
       border: 1px solid var(--border);
-      margin: 12px 0;
       gap: 1px;
       background: var(--border);
 
@@ -163,23 +162,27 @@ const preview = lines.slice(0, 5).join('\n');
     }
 
     & .title {
+      &::after {
+        content: " ― "
+      }
+
       color: var(--text-primary);
-      font-weight: 500;
-      font-size: var(--font-size-l);
-      line-height: var(--leading-loose);
+      font-weight: 700;
+      font-size: var(--font-size-m);
       -webkit-line-clamp: 3;
       text-wrap: pretty;
+      font-style: italic;
       overflow-wrap: break-word;
       margin: 0;
       padding: 0;
     }
 
     & .summary {
-      color: var(--text-secondary);
+      color: var(--text-primary);
       font-size: var(--font-size-m);
-      line-height: var(--leading-snug);
-      text-wrap: balance;
-      overflow-wrap: anywhere;
+      line-height: var(--leading-normal);
+      overflow-wrap: break-word;
+      padding: 0 var(--content-padding);
 
       overflow: hidden;
       display: -webkit-box;
@@ -189,6 +192,7 @@ const preview = lines.slice(0, 5).join('\n');
       & p {
         margin: 0.2rem 0;
         padding: 0;
+        text-align: justify;
       }
     }
 
@@ -197,8 +201,9 @@ const preview = lines.slice(0, 5).join('\n');
       flex-direction: row;
       align-items: center;
       gap: 12px;
-      color: var(--text-tertiary);
+      color: var(--text-secondary);
       margin: 0.2rem 0;
+      padding: 0 var(--content-padding);
 
       & .location {
         display: flex;
@@ -209,7 +214,7 @@ const preview = lines.slice(0, 5).join('\n');
         & span {
           padding: 0;
           margin: 0;
-          font-size: var(--font-size-s);
+          font-size: var(--font-size-m);
           line-height: 1;
         }
       }
@@ -223,14 +228,14 @@ const preview = lines.slice(0, 5).join('\n');
         & span {
           padding: 0;
           margin: 0;
-          font-size: var(--font-size-s);
+          font-size: var(--font-size-m);
           line-height: 1;
         }
       }
 
       & .publishDate {
-        color: var(--text-tertiary);
-        font-size: var(--font-size-s);
+        color: var(--text-secondary);
+        font-size: var(--font-size-m);
       }
     }
   }

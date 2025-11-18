@@ -18,8 +18,8 @@
   --font-serif: 'Cardo', serif;
 
   --font-size-s: 0.8125rem;
-  --font-size-m: 0.9375rem;
-  --font-size-l: 1.0625rem;
+  --font-size-m: 1.0375rem;
+  --font-size-l: 1.2625rem;
 
   --font-weight-light: 350;
   --font-weight-regular: 400;
@@ -34,6 +34,8 @@
   --leading-normal: 1.5;
   --leading-relaxed: 1.625;
   --leading-loose: 2;
+
+  --content-padding: 0px;
 
   /* Light Mode Colors (Default) */
   --bg: var(--color-paper);
@@ -257,45 +259,44 @@ main {
 
 
 
+.smooth-corners-sm {
+  mask-border: var(--base64Mask1x) 49% fill / 25px;
+}
+
+.smooth-corners-md {
+  mask-border: var(--base64Mask1x) 49% fill / 60px;
+}
+
+.smooth-corners-lg {
+  mask-border: var(--base64Mask1x) 49% fill / 75px;
+}
+
+/* 2x resolution */
+@media (min-resolution: 2x) {
   .smooth-corners-sm {
-    mask-border: var(--base64Mask1x) 49% fill / 25px;
+    mask-border: var(--base64Mask2x) 49% fill / 25px;
   }
 
   .smooth-corners-md {
-    mask-border: var(--base64Mask1x) 49% fill / 60px;
+    mask-border: var(--base64Mask2x) 49% fill / 60px;
   }
 
   .smooth-corners-lg {
-    mask-border: var(--base64Mask1x) 49% fill / 75px;
+    mask-border: var(--base64Mask2x) 49% fill / 75px;
+  }
+}
+
+/* 3x resolution */
+@media (min-resolution: 3x) {
+  .smooth-corners-sm {
+    mask-border: var(--base64Mask3x) 49% fill / 25px;
   }
 
-  /* 2x resolution */
-  @media (min-resolution: 2x) {
-    .smooth-corners-sm {
-      mask-border: var(--base64Mask2x) 49% fill / 25px;
-    }
-
-    .smooth-corners-md {
-      mask-border: var(--base64Mask2x) 49% fill / 60px;
-    }
-
-    .smooth-corners-lg {
-      mask-border: var(--base64Mask2x) 49% fill / 75px;
-    }
+  .smooth-corners-md {
+    mask-border: var(--base64Mask3x) 49% fill / 60px;
   }
 
-  /* 3x resolution */
-  @media (min-resolution: 3x) {
-    .smooth-corners-sm {
-      mask-border: var(--base64Mask3x) 49% fill / 25px;
-    }
-
-    .smooth-corners-md {
-      mask-border: var(--base64Mask3x) 49% fill / 60px;
-    }
-
-    .smooth-corners-lg {
-      mask-border: var(--base64Mask3x) 49% fill / 75px;
-    }
+  .smooth-corners-lg {
+    mask-border: var(--base64Mask3x) 49% fill / 75px;
   }
-
+}
