@@ -5,13 +5,24 @@ import ThemeToggle from '@/components/ui/ThemeToggle.astro'
 
 <header>
   <nav>
-    <a href="/">{themeConfig.site.title}</a>
-    <ThemeToggle />
+    <div class="header-title">
+      <ThemeToggle />
+      <a href="/">{themeConfig.site.title}</a>
+    </div>
   </nav>
 </header>
 <style>
   header {
     margin: 0;
+  }
+  .header-title {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    & a {
+      font-family: var(--font-serif-title);
+    }
   }
   .header-nav {
     display: flex;

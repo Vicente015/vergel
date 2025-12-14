@@ -1,6 +1,8 @@
 ---
 import { getEntry } from 'astro:content'
 import { render } from 'astro:content'
+import SubscribeButton from '../ui/SubscribeButton.astro'
+import Navbar from '../ui/Navbar.astro'
 
 const aboutEntry = await getEntry('about', 'about')
 // Check if there is actual content (excluding comments)
@@ -12,21 +14,41 @@ const { Content } = hasContent && aboutEntry ? await render(aboutEntry) : { Cont
 
 {
   hasContent && Content && (
-    <main class="about">
+    <div class="about">
       <section class="introduction">
-        <img src="/IlexCanariensis.png" width="99" />
-        <div>
-          <p>Hola, soy</p>
-          <h4>Vicente</h4>
+        <div class="introduction-content">
+          <div class="inline">
+            <img src="/avatar2.jpg" width="105" class="avatar" />
+            <div class="heading">
+              <p>Hola, soy</p>
+              <h4>Vicente Afonso</h4>
+            </div>
+          </div>
+
+          <div class="content">
+            <Content />
+          </div>
+        </div>
+
+        <div class="deco-img">
+          <img src="/IlexCanariensis.png" width="180" class="deco-img" />
         </div>
       </section>
-
-      <Content />
-    </main>
+    </div>
   )
 }
 
-<style>
+<style is:inline>
+  .deco-img {
+    display: block;
+    margin-left: 100%;
+  }
+
+  .avatar {
+    border-radius: 100%;
+    border: 1px solid var(--border);
+    box-shadow: 15px solid black;
+  }
   .about:not(:empty) {
     display: flex;
     margin-bottom: 1.25rem;
@@ -39,9 +61,21 @@ const { Content } = hasContent && aboutEntry ? await render(aboutEntry) : { Cont
       margin-top: 1rem;
       display: flex;
       flex-direction: row;
-      flex-wrap: wrap;
       align-items: center;
-      gap: 2rem;
+      justify-content: space-between;
+      gap: 4rem;
+
+      & .introduction-content {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      & .inline {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
 
       & img {
         image-rendering: auto;
@@ -52,23 +86,23 @@ const { Content } = hasContent && aboutEntry ? await render(aboutEntry) : { Cont
         padding: 0;
       }
 
-      & p {
-        font-size: 1.8rem;
+      & .heading p {
+        font-size: 2rem;
         font-weight: 500;
         line-height: 1;
         margin-bottom: 0.4rem;
       }
 
-      & h4 {
-        font-size: 2rem;
+      & .heading h4 {
+        font-size: 2.4rem;
         font-weight: 700;
         line-height: 1;
       }
-
     }
   }
 
-  & p {
-    font-size: var(--font-size-l);
+  .content p {
+    font-size: var(--font-size-m);
+    margin: 0.4rem 0 0.4rem 0;
   }
 </style>

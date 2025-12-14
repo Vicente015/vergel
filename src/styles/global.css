@@ -13,6 +13,7 @@
     SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace --font-sans: 'Adwaita Sans', 'Inter', system-ui;
 
+  --font-ui: 'Adwaita Sans', 'Inter', system-ui, sans-serif;
   --font-sans: 'Atkinson Hyperlegible', 'Inclusive Sans';
   --font-serif-title: 'Instrument Serif', serif;
   --font-serif: 'Cardo', serif;
@@ -20,6 +21,7 @@
   --font-size-s: 0.8125rem;
   --font-size-m: 1.0375rem;
   --font-size-l: 1.2625rem;
+  --font-size-xl: 1.4rem;
 
   --font-weight-light: 350;
   --font-weight-regular: 400;
@@ -27,6 +29,7 @@
 
   --spacing-s: -0.08em;
   --spacing-m: -0.02em;
+  --spacing-l: 0.01em;
 
   /* Line heights */
   --leading-tight: 1.25;
@@ -36,6 +39,8 @@
   --leading-loose: 2;
 
   --content-padding: 0px;
+
+  --rounded-sm: 4px;
 
   /* Light Mode Colors (Default) */
   --bg: var(--color-paper);

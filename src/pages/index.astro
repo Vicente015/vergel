@@ -4,6 +4,8 @@ import About from '@/components/widgets/About.astro'
 import PostList from '@/components/widgets/PostList.astro'
 import { themeConfig } from '@/config'
 import { getSortedFilteredPosts } from '@/utils/draft'
+import SubscribeButton from '@/components/ui/SubscribeButton.astro'
+import Navbar from '@/components/ui/Navbar.astro'
 
 const posts = await getSortedFilteredPosts()
 ---
@@ -11,7 +13,23 @@ const posts = await getSortedFilteredPosts()
 <IndexLayout title={themeConfig.site.title} description={themeConfig.site.description}>
   <About />
 
+  <div class="nav">
+    <Navbar />
+    <SubscribeButton />
+  </div>
+
   <main>
     <PostList posts={posts} />
   </main>
 </IndexLayout>
+
+<style>
+  .nav {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    height: 32px;
+    margin-top: 1rem;
+    margin-bottom: 0.8rem;
+  }
+</style>

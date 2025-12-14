@@ -10,9 +10,13 @@ const feeds: FeedType[] = [
     path: '/'
   },
   {
-    name: 'Notas',
-    path: '/notes'
+    name: 'Artículos',
+    path: '/articles'
   },
+  // {
+  //   name: 'Notas',
+  //   path: '/notes'
+  // },
   {
     name: 'Fotos',
     path: '/photos'
@@ -37,35 +41,72 @@ const currentPath = Astro.url.pathname
 </nav>
 
 <style is:inline>
+  * {
+    box-sizing: border-box;
+  }
+
+  .navbar {
+    border: 2px solid var(--border);
+    border-radius: var(--rounded-sm);
+    width: fit-content;
+    height: 100%;
+    max-height: 32px;
+    padding: 1px;
+  }
+
   .navbar-list {
     margin: 0;
     padding: 0;
     list-style: none;
     display: flex;
     flex-direction: row;
+    gap: 1px;
     align-items: center;
-
-    padding-bottom: 4px;
-    border-bottom: 1px solid var(--text-secondary);
+    justify-content: center;
+    background-color: var(--border);
+    font-family: var(--font-ui);
+    letter-spacing: var(--spacing-l);
   }
 
   .navbar-item {
     margin: 0;
-    padding: 0 14px;
-
-    &:hover {
-      background-color: var(--text-tertiary);
-    }
+    padding: 0;
+    display: flex;
   }
 
   .navbar-link {
     text-decoration: none;
-    color: var(--text-primary);
+    color: var(--text-secondary);
+    padding: 0 8px;
+    line-height: 1;
+    position: relative;
+    display: inline-block;
+    font-size: var(--font-size-m);
+
+    padding: 6px 33px;
+    background-color: var(--color-paper-02);
+
+    &:hover {
+      background-color: var(--color-paper-03);
+      color: var(--text-primary);
+    }
 
     &[data-active='true'] {
-      font-weight: 700;
-      padding-bottom: 5px;
-      border-bottom: 4px solid var(--text-secondary);
+      color: var(--text-primary);
+      font-weight: 500;
+
+      &:before {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        right: 0;
+        margin: 0 20px;
+        bottom: -1px;
+        height: 0;
+        border: 2px solid var(--text-primary);
+        border-radius: 3px 3px 0 0;
+      }
     }
   }
 </style>

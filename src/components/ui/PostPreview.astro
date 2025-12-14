@@ -1,13 +1,12 @@
 ---
-
 import type { CollectionEntry } from 'astro:content'
 import dayjs from 'dayjs'
 import localizedPlugin from 'dayjs/plugin/localizedFormat'
 import removeMarkdown from 'remove-markdown'
 import { Image } from 'astro:assets'
 import path from 'node:path'
-import LocationIcon from '@lucide/astro/icons/map-pin';
-import HeartIcon from '@lucide/astro/icons/heart';
+import LocationIcon from '@lucide/astro/icons/map-pin'
+import HeartIcon from '@lucide/astro/icons/heart'
 
 import('dayjs/locale/es')
 
@@ -28,52 +27,57 @@ let images =
 images = images.slice(0, 4)
 
 const cleanBody = removeMarkdown(post.body!)
-const lines = cleanBody.trim().split('\n');
-const preview = lines.slice(0, 5).join('\n');
+const lines = cleanBody.trim().split('\n')
+const preview = lines.slice(0, 5).join('\n')
 ---
 
 <article class="postPreview">
   <header class="header">
-    {
-      images && images.length > 0 && (
-        <div class="gallery">
-          {
-            images.map((imgPath) => {
+    <a href={`/${post.id}/`}>
+      {
+        images && images.length > 0 && (
+          <div class="gallery">
+            {images.map((imgPath) => {
               return <Image src={imgPath} alt={imgPath} />
-            })
-          }
-        </div>
-      )
-    }
+            })}
+          </div>
+        )
+      }
+    </a>
   </header>
 
-
   <main class="summary">
-     <p><span class="title">{post.data.title}</span> {preview}</p>
+    <p><span class="title">{post.data.title}</span> {preview}</p>
   </main>
 
   <footer class="footer">
-    <span class="publishDate">
-      {dayjs(post.data.pubDate).format('DD MMMM')}
-    </span>
+    <a href={`/${post.id}/`}>
+      <span class="publishDate">
+        {dayjs(post.data.pubDate).format('DD MMMM')}
+      </span>
+    </a>
 
-    {post.data.location && (
-      <div class="location">
-        <LocationIcon size='1.1em' stroke-width={1.2}/>
-        <span>{post.data.location}</span>
-    </div>
-    )}
+    {
+      post.data.location && (
+        <div class="location">
+          <LocationIcon size="1.1em" stroke-width={1.2} />
+          <span>{post.data.location}</span>
+        </div>
+      )
+    }
 
-     {post.data.likes && (
-      <div class="likes">
-        <HeartIcon size="1.1em" stroke-width={1.2} />
-        <span>{post.data.likes}</span>
-      </div>
-     )}
+    {
+      post.data.likes && (
+        <div class="likes">
+          <HeartIcon size="1.1em" stroke-width={1.2} />
+          <span>{post.data.likes}</span>
+        </div>
+      )
+    }
   </footer>
 </article>
 
-<style>
+<style is:inline>
   .icon {
     display: inline-block;
     width: 1em;
@@ -98,6 +102,10 @@ const preview = lines.slice(0, 5).join('\n');
       border: 1px solid var(--border);
       gap: 1px;
       background: var(--border);
+
+      &:first-of-type {
+        margin-top: 0;
+      }
 
       & img {
         width: 100%;
@@ -163,7 +171,7 @@ const preview = lines.slice(0, 5).join('\n');
 
     & .title {
       &::after {
-        content: " ― "
+        content: ' ― ';
       }
 
       color: var(--text-primary);
@@ -201,9 +209,13 @@ const preview = lines.slice(0, 5).join('\n');
       flex-direction: row;
       align-items: center;
       gap: 12px;
-      color: var(--text-secondary);
-      margin: 0.2rem 0;
+      color: var(--text-tertiary);
+      margin: 0;
       padding: 0 var(--content-padding);
+
+      & a {
+        text-decoration: none;
+      }
 
       & .location {
         display: flex;
@@ -212,6 +224,7 @@ const preview = lines.slice(0, 5).join('\n');
         align-items: center;
 
         & span {
+          color: var(--text-secondary);
           padding: 0;
           margin: 0;
           font-size: var(--font-size-m);

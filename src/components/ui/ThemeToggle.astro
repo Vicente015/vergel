@@ -5,8 +5,8 @@ import { themeConfig } from '@/config'
 {
   themeConfig.general.themeToggle && (
     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-      <div class="theme-icon hollow-circle" />
-      <div class="theme-icon solid-circle" />
+      <img class="light-icon" src="/Light.svg" height="18" width="18" />
+      <img class="dark-icon" src="/Dark.svg" height="18" width="18" />
     </button>
   )
 }
@@ -35,6 +35,14 @@ import { themeConfig } from '@/config'
 </script>
 
 <style>
+  html.dark .light-icon {
+    display: none;
+  }
+
+  html.light .dark-icon {
+    display: none;
+  }
+
   .theme-toggle {
     background: none;
     border: none;

@@ -9,16 +9,14 @@ const { posts } = Astro.props as PostListProps
   {
     posts.map((post) => (
       <li>
-        <a href={`/${post.id}/`}>
-          <PostPreview post={post} />
-        </a>
+        <PostPreview post={post} />
       </li>
     ))
   }
 </ul>
 <div class="placeholder"></div>
 
-<style>
+<style is:inline>
   ul {
     padding: 0;
     margin: 0;
@@ -29,7 +27,7 @@ const { posts } = Astro.props as PostListProps
   }
 
   li {
-    margin: 0.8rem 0;
+    margin: 0;
   }
 
   * {
