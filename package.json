@@ -23,7 +23,7 @@
     "@astrojs/sitemap": "^3.6.0",
     "@lucide/astro": "^0.553.0",
     "@playform/inline": "^0.1.2",
-    "astro": "^5.14.1",
+    "astro": "^5.15.9",
     "astro-og-canvas": "^0.7.0",
     "canvaskit-wasm": "^0.40.0",
     "dayjs": "^1.11.19",
