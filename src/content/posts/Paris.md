@@ -1,5 +1,5 @@
 ---
-title: 'Viaje a Londres'
+title: 'Viaje a Paris'
 pubDate: '2025-11-29'
 location: 'London'
 ---
@@ -10,6 +10,10 @@ lorem
 
 
 ![](../photos/halftone-PB230131-cropped-min.png)
-![](../photos/PB230131-cropped.jpg)
+![](../photos/halftone-PB230131-cropped-min.png)
+![](../photos/1.jpeg)
+![](../photos/2.jpeg)
+![](../photos/3.jpeg)
+
 
 ::neodb{url="https://neodb.social/book/61FZBbo3pPOasyUFeeOsvu"}

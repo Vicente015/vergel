@@ -44,6 +44,17 @@
 </button>
 
 <style is:inline>
+  /* Lock the page */
+  body:has(dialog[open]) {
+    overflow: hidden; /* fallback for older browsers */
+    overscroll-behavior: none;
+  }
+
+  dialog[open],
+  dialog[open]::backdrop {
+    overscroll-behavior: contain;
+  }
+
   .subscribe-button {
     margin-bottom: 0.4rem;
   }
@@ -85,7 +96,7 @@
     display: flex;
     flex-direction: column;
     width: 60ch;
-    height: 50vh;
+    height: fit-content;
 
     background: var(--bg);
     border: 1px solid color-mix(in srgb, var(--border) 85%, black);
@@ -99,6 +110,7 @@
       margin: 0;
       padding: 0;
       margin-top: -2rem;
+      width: fit-content;
     }
 
     & .close-btn {

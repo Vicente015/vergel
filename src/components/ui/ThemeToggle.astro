@@ -35,8 +35,16 @@ import { themeConfig } from '@/config'
 </script>
 
 <style>
+  .dark-icon {
+    display: none;
+  }
+
   html.dark .light-icon {
     display: none;
+  }
+
+  html.dark .dark-icon {
+    display: block;
   }
 
   html.light .dark-icon {
@@ -55,22 +63,20 @@ import { themeConfig } from '@/config'
     transition: opacity 0.2s ease;
     padding: 0 0 0 0.5rem;
     position: relative;
+    transition: all ease-in 0.3s;
+
+    & img {
+      image-rendering: pixelated;
+    }
+
+    &:hover {
+      transform: scale(1.1);
+    }
   }
 
   .theme-icon {
     width: 0.4375rem;
     height: 0.4375rem;
     transition: all 0.2s ease;
-  }
-
-  .hollow-circle {
-    border: none;
-    border-radius: 50%;
-    box-shadow: inset 0 0 0 1.125px var(--text-primary);
-  }
-
-  .solid-circle {
-    background-color: var(--text-primary);
-    border-radius: 50%;
   }
 </style>

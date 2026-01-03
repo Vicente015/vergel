@@ -1,13 +1,13 @@
 ---
 import Navbar from '@/components/ui/Navbar.astro'
+import PostFooter from '@/components/ui/PostFooter.astro'
 import SubscribeButton from '@/components/ui/SubscribeButton.astro'
 import IndexLayout from '@/layouts/IndexLayout.astro'
-import { Image } from 'astro:assets'
+import { getPhotosWithMetadata, postsWithPhotos } from '@/utils/postWithPhotos'
+import { ApertureIcon, CameraIcon, TimerIcon } from '@lucide/astro'
+import { Picture } from 'astro:assets'
 
-const images = import.meta.glob('../content/posts/_assets/*.{jpg,jpeg,png}', {
-  eager: true
-})
-console.debug(images)
+const photosWithMetadata = await getPhotosWithMetadata()
 ---
 
 <IndexLayout>
@@ -16,30 +16,137 @@ console.debug(images)
     <SubscribeButton />
   </div>
 
-  <main class="gallery">
+  <main>
     {
-      Object.entries(images)
-        .concat(Object.entries(images))
-        .concat(Object.entries(images))
-        .concat(Object.entries(images))
-        .map(([path, mod]) => <Image src={mod.default.src} alt={''} />)
+      postsWithPhotos.map((post) => (
+        <div class="Photo__post">
+          <div class="Photo__gallery">
+            {post.photos.map(([filename, mod]) => (
+              <div class="Photo">
+                <Picture
+                  formats={['avif', 'webp']}
+                  src={mod()}
+                  layout="full-width"
+                  fit="contain"
+                  alt={''}
+                  {...(photosWithMetadata![filename]?.metadata
+                    ? Object.fromEntries(
+                        Object.entries(photosWithMetadata![filename]?.metadata).map(
+                          ([key, value]) => ['data-' + key, value]
+                        )
+                      )
+                    : {})}
+                />
+              </div>
+            ))}
+          </div>
+          <h2 class="Photo__title">{post.data.title}</h2>
+          <PostFooter post={post} />
+        </div>
+      ))
     }
   </main>
+  <dialog id="Photo__modal">
+    <button
+      class="close-btn"
+      id="close-btn"
+      type="button"
+      commandfor="Photo__modal"
+      command="close"
+    >
+      ×
+    </button>
+
+    <img id="Modal_img" style="object-fit:contain;" />
+
+    <div class="Photo__metadata">
+      <ul>
+        <li>
+          <CameraIcon size="1.1em" stroke-width={1.6} />
+          <span id="photo-camera"></span>
+        </li>
+        <li>
+          <CameraIcon size="1.1em" stroke-width={1.6} />
+          <span id="photo-focallength"></span>
+        </li>
+        <li>
+          <ApertureIcon size="1.1em" stroke-width={1.6} />
+          <span id="photo-aperture"></span>
+        </li>
+        <li>
+          <TimerIcon size="1.1em" stroke-width={1.6} />
+          <span id="photo-exposuretime"></span>
+        </li>
+        <li>
+          <CameraIcon size="1.1em" stroke-width={1.6} />
+          <span id="photo-iso"></span>
+        </li>
+      </ul>
+    </div>
+  </dialog>
 </IndexLayout>
 
 <style is:inline>
-  .gallery {
+  .Photo__metadata {
+    display: none;
+    color: var(--text-primary);
+    margin-top: 1rem;
+
+    & ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding: 0;
+      margin: 0;
+
+      & li {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.4rem;
+
+        & span {
+          line-height: 1;
+        }
+      }
+    }
+  }
+
+  .Photo__post {
+    margin-bottom: 2rem;
+  }
+
+  .Photo__title {
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: var(--font-size-m);
+    -webkit-line-clamp: 3;
+    text-wrap: pretty;
+    font-style: italic;
+    overflow-wrap: break-word;
+    margin: 0.2rem 0;
+    margin-top: 0.4rem;
+    padding: 0;
+    line-height: 1.2;
+  }
+
+  .Photo__gallery {
     display: grid;
     gap: 0.4rem;
     row-gap: 0.4rem;
+    margin: 12px -1rem;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-rows: repeat(auto-fit, 1fr);
 
-    & img {
+    & .Photo {
+      overflow: hidden;
+    }
+
+    & .Photo img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      aspect-ratio: 1 / 1;
       border-radius: var(--rounded-sm);
 
       &:hover {
@@ -52,8 +159,95 @@ console.debug(images)
     display: flex;
     align-items: start;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     height: 32px;
     margin-top: 1rem;
     margin-bottom: 0.8rem;
   }
+
+  #Photo__modal[open=''] {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    width: 90vw;
+    height: fit-content;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    & .Photo__metadata {
+      display: block;
+    }
+
+    & .close-btn {
+      background: none;
+      border: none;
+      padding: 0.5rem;
+      padding-right: 0;
+      margin-left: auto;
+      width: fit-content;
+      cursor: pointer;
+      color: black;
+      font-size: 2rem;
+      outline: none;
+    }
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: var(--rounded-sm);
+    }
+
+    &::backdrop {
+      background: hsla(48, 100%, 98%, 0.6);
+      backdrop-filter: blur(4px);
+    }
+  }
 </style>
+
+<script>
+  const images = document.querySelectorAll<HTMLImageElement>('.Photo img')!
+  const photoModal = document.querySelector<HTMLDialogElement>('#Photo__modal')!
+  const closeBtn = document.querySelector<HTMLButtonElement>('#close-btn')!
+  const metadataDiv = document.querySelector<HTMLDivElement>('.Photo__metadata')!
+
+  const modalImg = document.querySelector<HTMLImageElement>('#Modal_img')!
+
+  closeBtn.addEventListener('click', () => {
+    photoModal.close()
+  })
+
+  for (const image of images) {
+    image.addEventListener('click', () => {
+      modalImg.src = image.src
+      modalImg.srcset = image.srcset
+      modalImg.alt = image.alt
+
+      const metadataAttributes = new Array(...image.attributes).filter((attr) =>
+        attr.name.startsWith('data-')
+      )
+      const hasMetadata = metadataAttributes.some((attr) => attr.name.includes('data-camera'))
+
+      if (hasMetadata) {
+        metadataDiv.style.display = 'block'
+
+        for (const attr of metadataAttributes) {
+          const metadataElement = photoModal.querySelector(`#photo-${attr.name.split('-')[1]}`)
+          if (!metadataElement) continue
+          metadataElement.textContent = attr.value
+        }
+      } else {
+        metadataDiv.style.display = 'none'
+      }
+
+      photoModal.showModal()
+    })
+  }
+</script>

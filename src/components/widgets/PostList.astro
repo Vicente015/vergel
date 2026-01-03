@@ -16,7 +16,7 @@ const { posts } = Astro.props as PostListProps
 </ul>
 <div class="placeholder"></div>
 
-<style is:inline>
+<style>
   ul {
     padding: 0;
     margin: 0;
@@ -28,10 +28,6 @@ const { posts } = Astro.props as PostListProps
 
   li {
     margin: 0;
-  }
-
-  * {
-    color: var(--text-primary);
-    text-decoration: none;
+    margin-bottom: 2rem;
   }
 </style>

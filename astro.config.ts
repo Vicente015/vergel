@@ -14,10 +14,13 @@ import remarkTOC from './src/plugins/remark-toc.mjs'
 import { themeConfig } from './src/config'
 import { imageConfig } from './src/utils/image-config'
 import path from 'path'
-import netlify from '@astrojs/netlify'
+
+import node from '@astrojs/node';
 
 export default defineConfig({
-  adapter: netlify(), // Set adapter for deployment, or set `linkCard` to `false` in `src/config.ts`
+  adapter: node({
+    mode: 'standalone'
+  }),
   site: themeConfig.site.website,
   image: {
     service: {
@@ -25,6 +28,7 @@ export default defineConfig({
       config: imageConfig
     }
   },
+
   markdown: {
     shikiConfig: {
       theme: 'css-variables',
@@ -33,6 +37,7 @@ export default defineConfig({
     remarkPlugins: [remarkMath, remarkDirective, remarkEmbeddedMedia, remarkReadingTime, remarkTOC],
     rehypePlugins: [rehypeKatex, rehypeCleanup, rehypeImageProcessor, rehypeCopyCode]
   },
+
   integrations: [
     playformInline({
       Exclude: [(file) => file.toLowerCase().includes('katex')]
@@ -40,6 +45,7 @@ export default defineConfig({
     mdx(),
     sitemap()
   ],
+
   vite: {
     resolve: {
       alias: {
@@ -47,6 +53,7 @@ export default defineConfig({
       }
     }
   },
+
   devToolbar: {
     enabled: false
   }

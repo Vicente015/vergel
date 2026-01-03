@@ -1,0 +1,90 @@
+---
+import LocationIcon from '@lucide/astro/icons/map-pin'
+import HeartIcon from '@lucide/astro/icons/heart'
+
+import dayjs from 'dayjs'
+import localizedPlugin from 'dayjs/plugin/localizedFormat'
+import type { postsWithPhotos } from '@/utils/postWithPhotos'
+import('dayjs/locale/es')
+
+dayjs.extend(localizedPlugin)
+dayjs.locale('es')
+
+const { post } = Astro.props as { post: (typeof postsWithPhotos)[number] }
+---
+
+<footer class="footer">
+  <a href={`/${post.id}/`}>
+    <span class="publishDate">
+      {dayjs(post.data.pubDate).format('DD MMMM')}
+    </span>
+  </a>
+
+  {
+    post.data.location && (
+      <div class="location">
+        <LocationIcon size="1.1em" stroke-width={1.6} />
+        <span>{post.data.location}</span>
+      </div>
+    )
+  }
+
+  {
+    post.data.likes && (
+      <div class="likes">
+        <HeartIcon size="1.1em" stroke-width={1.6} />
+        <span>{post.data.likes}</span>
+      </div>
+    )
+  }
+</footer>
+
+<style>
+  .footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-secondary);
+    margin: 0;
+    padding: 0 var(--content-padding);
+
+    & a {
+      text-decoration: none;
+    }
+
+    & .location {
+      display: flex;
+      flex-direction: row;
+      gap: 4px;
+      align-items: center;
+
+      & span {
+        color: var(--text-secondary);
+        padding: 0;
+        margin: 0;
+        font-size: var(--font-size-m);
+        line-height: 1;
+      }
+    }
+
+    & .likes {
+      display: flex;
+      flex-direction: row;
+      gap: 4px;
+      align-items: center;
+
+      & span {
+        padding: 0;
+        margin: 0;
+        font-size: var(--font-size-m);
+        line-height: 1;
+      }
+    }
+
+    & .publishDate {
+      color: var(--text-secondary);
+      font-size: var(--font-size-m);
+    }
+  }
+</style>

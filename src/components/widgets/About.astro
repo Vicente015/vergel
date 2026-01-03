@@ -18,7 +18,7 @@ const { Content } = hasContent && aboutEntry ? await render(aboutEntry) : { Cont
       <section class="introduction">
         <div class="introduction-content">
           <div class="inline">
-            <img src="/avatar2.jpg" width="105" class="avatar" />
+            <img src="/avatar2_halftone.png" width="105" class="avatar" />
             <div class="heading">
               <p>Hola, soy</p>
               <h4>Vicente Afonso</h4>
@@ -31,7 +31,13 @@ const { Content } = hasContent && aboutEntry ? await render(aboutEntry) : { Cont
         </div>
 
         <div class="deco-img">
-          <img src="/IlexCanariensis.png" width="180" class="deco-img" />
+          <img
+            src="/halftone_1765833365280-Photoroom_4.png"
+            width="180"
+            class="deco-img"
+            alt="Ilex canariensis"
+            title="Ilex canariensis"
+          />
         </div>
       </section>
     </div>
@@ -46,7 +52,9 @@ const { Content } = hasContent && aboutEntry ? await render(aboutEntry) : { Cont
 
   .avatar {
     border-radius: 100%;
+    image-rendering: pixelated;
     border: 1px solid var(--border);
+    background-color: rgba(255, 255, 255, 0.4);
     box-shadow: 15px solid black;
   }
   .about:not(:empty) {
