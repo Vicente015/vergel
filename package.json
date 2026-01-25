@@ -14,7 +14,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "new": "tsx scripts/new-post.ts",
-    "update-theme": "tsx scripts/update-theme.ts"
+    "update-theme": "tsx scripts/update-theme.ts",
+    "update-content": "git submodule update --remote --force --recursive"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",

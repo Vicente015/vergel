@@ -1,0 +1,3 @@
+- [ ] Indiekit setup
+- [ ] Fix dark mode
+- [ ] Mobile / browsers check
