@@ -8,6 +8,7 @@ import { ApertureIcon, CameraIcon, TimerIcon } from '@lucide/astro'
 import { Picture } from 'astro:assets'
 
 const photosWithMetadata = await getPhotosWithMetadata()
+console.debug(photosWithMetadata)
 ---
 
 <IndexLayout>

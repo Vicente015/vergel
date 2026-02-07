@@ -52,6 +52,7 @@
 
   dialog[open],
   dialog[open]::backdrop {
+    backdrop-filter: blur(1px);
     overscroll-behavior: contain;
   }
 
@@ -62,8 +63,8 @@
   .active-button {
     display: flex;
     width: fit-content;
-    background-color: color-mix(in srgb, var(--bg) 50%, white);
-    text: var(--text-primary);
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
     border: 1px solid var(--border);
     cursor: pointer;
     border-radius: var(--rounded-sm);
@@ -86,9 +87,12 @@
       width: 100%;
     }
 
-    &:hover {
-      background: color-mix(in srgb, var(--bg) 20%, white);
-      border: 1px solid color-mix(in srgb, var(--border) 85%, black);
+    &:hover,
+    &:focus {
+      color: var(--text-primary);
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-active);
+      outline: none;
     }
   }
 
@@ -99,7 +103,7 @@
     height: fit-content;
 
     background: var(--bg);
-    border: 1px solid color-mix(in srgb, var(--border) 85%, black);
+    border: 1px solid var(--border-active);
     border-radius: var(--rounded-sm);
     text-color: var(--text-primary);
 
@@ -141,7 +145,7 @@
       appearance: none;
       border-radius: var(--rounded-sm);
       border: 1px solid var(--border);
-      background-color: color-mix(in srgb, var(--bg) 50%, white);
+      background-color: var(--bg-secondary);
       outline: none;
       font-size: var(--font-size-m);
       padding: 4px 8px;
@@ -151,8 +155,8 @@
       &:hover {
         color: var(--text-primary);
         outline: none;
-        background: color-mix(in srgb, var(--bg) 20%, white);
-        border: 1px solid color-mix(in srgb, var(--border) 85%, black);
+        background: var(--bg-tertiary);
+        border: 1px solid var(--border-active);
       }
 
       &::placeholder {

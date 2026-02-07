@@ -2,7 +2,12 @@
 @import './post.css';
 @import url('https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Instrument+Serif:ital@0;1&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
+@custom-media --mobile (min-width: 320px);
+@custom-media --tablet (min-width: 768px);
+
 :root {
+  --mobile: 320px;
+
   /* Min Content Width */
   --content-width: 25rem;
 
@@ -30,6 +35,7 @@
   --spacing-s: -0.08em;
   --spacing-m: -0.02em;
   --spacing-l: 0.01em;
+  --spacing-xl: 0.025em;
 
   /* Line heights */
   --leading-tight: 1.25;
@@ -101,10 +107,16 @@
 /* Light Mode (Explicit) */
 html.light {
   --bg: var(--color-paper);
+  --bg-secondary: var(--color-paper-02);
+  --bg-tertiary: var(--color-paper-03);
+
   --text-primary: var(--color-black);
   --text-secondary: var(--color-base-600);
   --text-tertiary: var(--color-base-300);
+
   --border: var(--color-base-100);
+  --border-active: var(--color-base-150);
+
   --selection: var(--color-base-100);
   --code-bg: rgba(0, 0, 0, 0.04);
   --mark: #f3ffc4;
@@ -126,11 +138,17 @@ html.light {
 /* Dark Mode (Explicit) */
 html.dark {
   --bg: var(--color-black);
-  --text-primary: var(--color-base-200);
-  --text-secondary: var(--color-base-500);
-  --text-tertiary: var(--color-base-700);
-  --border: var(--color-base-900);
-  --selection: var(--color-base-900);
+  --bg-secondary: var(--color-base-850);
+  --bg-tertiary: var(--color-base-800);
+
+  --text-primary: var(--color-paper);
+  --text-secondary: var(--color-base-400);
+  --text-tertiary: var(--color-ink);
+
+  --border: var(--color-base-700);
+  --border-active: var(--color-base-600);
+
+  --selection: var(--color-base-700);
   --code-bg: rgba(255, 255, 255, 0.04);
   --mark: #545b37;
 
@@ -261,8 +279,6 @@ main {
   clip-path: inset(50%);
   white-space: nowrap;
 }
-
-
 
 .smooth-corners-sm {
   mask-border: var(--base64Mask1x) 49% fill / 25px;

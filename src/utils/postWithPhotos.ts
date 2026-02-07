@@ -7,7 +7,7 @@ const __dirname = import.meta.dirname;
 const getFilename = (path: string) => path.replace(/^.*[\\/]/, '')
 
 const photos = import.meta.glob<{ default: ImageMetadata }>(
-  '../content/photos/*.{jpeg,jpg,png,gif,webp}'
+  '../content/media/**/**/**/*.{jpeg,jpg,png,gif,webp}'
 )
 const photosEntries = Object.entries(photos).map(
   ([path, file]) => [getFilename(path), file] as [string, () => Promise<{ default: ImageMetadata }>]
@@ -40,6 +40,8 @@ type PhotoWithMetadataEntry = [string, PhotoWithMetadata]
 
 const getPhotoMetadata = async (filepath: string): Promise<PhotoMetadata | undefined> => {
   const metadata = await exifr.parse(path.join(__dirname, filepath))
+  console.debug(filepath, metadata)
+  if (!metadata) return
   if (!metadata.FocalLength || !metadata.MaxApertureValue || !metadata.ExposureTime || !metadata.ISO) return undefined
 
   return {
