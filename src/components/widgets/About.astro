@@ -46,8 +46,12 @@ const { Content } = hasContent && aboutEntry ? await render(aboutEntry) : { Cont
 
 <style is:inline>
   .deco-img {
-    display: block;
-    margin-left: 100%;
+    display: none;
+
+    @media (min-width: 620px) {
+      display: block;
+      margin-left: 100%;
+    }
   }
 
   .avatar {
@@ -83,6 +87,9 @@ const { Content } = hasContent && aboutEntry ? await render(aboutEntry) : { Cont
         display: flex;
         align-items: center;
         gap: 2rem;
+        @media (0px <= width <= 320px) {
+          font-size: 1rem;
+        }
       }
 
       & img {
@@ -99,12 +106,20 @@ const { Content } = hasContent && aboutEntry ? await render(aboutEntry) : { Cont
         font-weight: 500;
         line-height: 1;
         margin-bottom: 0.4rem;
+
+        @media (0 <= width <= 320px) {
+          font-size: 1.6rem;
+        }
       }
 
       & .heading h4 {
         font-size: 2.4rem;
         font-weight: 700;
         line-height: 1;
+
+        @media (0 <= width <= 320px) {
+          font-size: 1.8rem;
+        }
       }
     }
   }
