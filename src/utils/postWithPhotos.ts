@@ -1,8 +1,23 @@
 import { getCollection } from "astro:content"
 import exifr from 'exifr'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-const __dirname = import.meta.dirname;
+// Get the project root directory (works in both dev and build)
+const getProjectRoot = () => {
+  const currentDir = import.meta.dirname || path.dirname(fileURLToPath(import.meta.url))
+
+  // Check if we're in a build output directory
+  if (currentDir.includes('/dist/server') || currentDir.includes('\\dist\\server')) {
+    // Go up to project root from dist/server/chunks
+    return path.resolve(currentDir, '..', '..', '..')
+  }
+
+  // In dev mode, go up from src/utils to project root
+  return path.resolve(currentDir, '..', '..')
+}
+
+const projectRoot = getProjectRoot()
 
 const getFilename = (path: string) => path.replace(/^.*[\\/]/, '')
 
@@ -39,18 +54,25 @@ type PhotoWithMetadata = {
 type PhotoWithMetadataEntry = [string, PhotoWithMetadata]
 
 const getPhotoMetadata = async (filepath: string): Promise<PhotoMetadata | undefined> => {
-  const metadata = await exifr.parse(path.join(__dirname, filepath))
-  console.debug(filepath, metadata)
-  if (!metadata) return
-  if (!metadata.FocalLength || !metadata.MaxApertureValue || !metadata.ExposureTime || !metadata.ISO) return undefined
+  const absolutePath = path.resolve(projectRoot, 'src/utils', filepath)
 
-  return {
-    Camera: `${metadata.Make} ${metadata.Model}`,
-    Lens: null,
-    FocalLength: `${metadata.FocalLength}mm`,
-    Aperture: `f${metadata.MaxApertureValue}`,
-    ExposureTime: `1/${Math.round(1 / metadata.ExposureTime)}s`,
-    ISO: 'ISO ' + metadata.ISO.toString(),
+  try {
+    const metadata = await exifr.parse(absolutePath)
+    console.debug(filepath, metadata)
+    if (!metadata) return undefined
+    if (!metadata.FocalLength || !metadata.MaxApertureValue || !metadata.ExposureTime || !metadata.ISO) return undefined
+
+    return {
+      Camera: `${metadata.Make} ${metadata.Model}`,
+      Lens: null,
+      FocalLength: `${metadata.FocalLength}mm`,
+      Aperture: `f${metadata.MaxApertureValue}`,
+      ExposureTime: `1/${Math.round(1 / metadata.ExposureTime)}s`,
+      ISO: 'ISO ' + metadata.ISO.toString(),
+    }
+  } catch (error) {
+    console.warn(`Failed to read EXIF from ${filepath}:`, error)
+    return undefined
   }
 }
 
