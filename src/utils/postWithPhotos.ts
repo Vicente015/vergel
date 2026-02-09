@@ -1,7 +1,7 @@
-import { getCollection } from "astro:content"
 import exifr from 'exifr'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { getPosts } from './posts'
 
 // Get the project root directory (works in both dev and build)
 const getProjectRoot = () => {
@@ -19,7 +19,8 @@ const getProjectRoot = () => {
 
 const projectRoot = getProjectRoot()
 
-const getFilename = (path: string) => path.replace(/^.*[\\/]/, '')
+const getFilename = (path: string) =>
+  path.replaceAll('../content/media/', '').replaceAll('../media/', '')
 
 const photos = import.meta.glob<{ default: ImageMetadata }>(
   '../content/media/**/**/**/*.{jpeg,jpg,png,gif,webp}'
@@ -28,14 +29,18 @@ const photosEntries = Object.entries(photos).map(
   ([path, file]) => [getFilename(path), file] as [string, () => Promise<{ default: ImageMetadata }>]
 )
 
-const posts = await getCollection('posts')
+const posts = await getPosts()
 
-const postsWithPhotos = posts.map((post) => ({
-  ...post,
-  photos: photosEntries.filter(([photo]) =>
-    post.rendered!.metadata!.imagePaths.map(getFilename).includes(photo)
-  )
-}))
+const postsWithPhotos = posts
+  .map((post) => ({
+    ...post,
+    photos: photosEntries.filter(
+      ([photo]) =>
+        post.rendered!.metadata!.imagePaths.map(getFilename).includes(photo) ||
+        post.data.photo?.find((p) => p.url.includes(photo))
+    )
+  }))
+  .filter((post) => post.photos.length > 0)
 
 type PhotoMetadata = {
   Camera: string
@@ -47,7 +52,7 @@ type PhotoMetadata = {
 }
 
 type PhotoWithMetadata = {
-  file: () => Promise<{ default: ImageMetadata }>,
+  file: () => Promise<{ default: ImageMetadata }>
   metadata: PhotoMetadata
 }
 
@@ -58,9 +63,14 @@ const getPhotoMetadata = async (filepath: string): Promise<PhotoMetadata | undef
 
   try {
     const metadata = await exifr.parse(absolutePath)
-    console.debug(filepath, metadata)
     if (!metadata) return undefined
-    if (!metadata.FocalLength || !metadata.MaxApertureValue || !metadata.ExposureTime || !metadata.ISO) return undefined
+    if (
+      !metadata.FocalLength ||
+      !metadata.MaxApertureValue ||
+      !metadata.ExposureTime ||
+      !metadata.ISO
+    )
+      return undefined
 
     return {
       Camera: `${metadata.Make} ${metadata.Model}`,
@@ -68,7 +78,7 @@ const getPhotoMetadata = async (filepath: string): Promise<PhotoMetadata | undef
       FocalLength: `${metadata.FocalLength}mm`,
       Aperture: `f${metadata.MaxApertureValue}`,
       ExposureTime: `1/${Math.round(1 / metadata.ExposureTime)}s`,
-      ISO: 'ISO ' + metadata.ISO.toString(),
+      ISO: 'ISO ' + metadata.ISO.toString()
     }
   } catch (error) {
     console.warn(`Failed to read EXIF from ${filepath}:`, error)
@@ -78,8 +88,8 @@ const getPhotoMetadata = async (filepath: string): Promise<PhotoMetadata | undef
 
 const getPhotosWithMetadata = async (): Promise<Record<string, PhotoWithMetadata> | undefined> => {
   const meta = await Promise.all(
-    Object.entries(photos)
-      .map(async ([filepath, file]): Promise<PhotoWithMetadataEntry | undefined> => {
+    Object.entries(photos).map(
+      async ([filepath, file]): Promise<PhotoWithMetadataEntry | undefined> => {
         const metadata = await getPhotoMetadata(filepath)
         if (!metadata) return undefined
 
@@ -90,14 +100,12 @@ const getPhotosWithMetadata = async (): Promise<Record<string, PhotoWithMetadata
             metadata
           }
         ]
-      }))
+      }
+    )
+  )
   if (!meta) return undefined
 
   return Object.fromEntries(meta.filter(Boolean) as PhotoWithMetadataEntry[])
 }
 
-export {
-  postsWithPhotos,
-  photos,
-  getPhotosWithMetadata
-}
+export { postsWithPhotos, photos, getPhotosWithMetadata }

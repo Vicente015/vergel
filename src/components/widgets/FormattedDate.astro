@@ -1,6 +1,6 @@
 ---
 import { themeConfig } from '@/config'
-import { formatDate } from '@/utils/date'
+import { dayjs, formatDate } from '@/utils/dayjs'
 import type { FormattedDateProps } from '@/types'
 
 const {
@@ -19,7 +19,7 @@ const {
     ? 'date-left'
     : ''}
 >
-  <Fragment set:html={formatDate(date, format)} />
+  <Fragment set:html={formatDate(date)} />
 </time>
 
 <style>

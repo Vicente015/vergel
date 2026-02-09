@@ -1,26 +1,67 @@
 import { glob } from 'astro/loaders'
 import { defineCollection, z } from 'astro:content'
 
-const posts = defineCollection({
-  // Load Markdown and MDX files in the `src/content/posts/` directory.
+const locationSchema = z.object({
+  type: z.enum(['geo']),
+  name: z.string(),
+  latitude: z.number(),
+  longitude: z.number()
+})
+
+const articleSchema = z.object({
+  title: z.string(),
+  pubDate: z.coerce.date(),
+
+  // ? Optionals
+  summary: z.string().optional(),
+  category: z.string().optional(),
+  visibility: z.enum(['public', 'private']).default('public').optional(),
+  'post-status': z.enum(['published']).default('published').optional(),
+  location: locationSchema.optional(),
+  updated: z.coerce.date().optional(),
+
+  // ? Custom
+  image: z.string().optional(),
+  likes: z.number().optional()
+})
+
+const photoSchema = articleSchema.extend({
+  photo: z
+    .array(
+      z.object({
+        url: z.string().nonempty(),
+        alt: z.string().nonempty()
+      })
+    )
+    .optional()
+})
+
+const postSchema = articleSchema.merge(photoSchema)
+
+const articles = defineCollection({
   loader: glob({ base: './src/content/articles', pattern: '**/*.{md,mdx}' }),
-  // Type-check frontmatter using a schema
-  schema: () =>
-    z.object({
-      title: z.string(),
-      // Transform string to Date object
-      pubDate: z.coerce.date(),
-      image: z.string().optional(),
-      location: z.string().optional(),
-      likes: z.number().optional()
-    })
+  schema: () => articleSchema
+})
+
+const photos = defineCollection({
+  loader: glob({ base: './src/content/photos', pattern: '**/*.{md,mdx}' }),
+  schema: () => photoSchema
+})
+
+// ? Posts contains all types of 'posts'/'content'
+const posts = defineCollection({
+  loader: glob({ base: './src/content', pattern: '!(about)/**/*.{md,mdx}' }),
+  schema: () => postSchema
 })
 
 const about = defineCollection({
-  // Load Markdown files in the `src/content/about/` directory.
   loader: glob({ base: './src/content/about', pattern: '**/*.md' }),
-  // Type-check frontmatter using a schema
-  schema: z.object({})
+  schema: z.object({ title: z.string().nonempty() })
 })
 
-export const collections = { posts, about }
+export const collections = {
+  articles,
+  photos,
+  posts,
+  about
+}

@@ -2,22 +2,17 @@
 import LocationIcon from '@lucide/astro/icons/map-pin'
 import HeartIcon from '@lucide/astro/icons/heart'
 
-import dayjs from 'dayjs'
-import localizedPlugin from 'dayjs/plugin/localizedFormat'
 import type { postsWithPhotos } from '@/utils/postWithPhotos'
-import('dayjs/locale/es')
-
-dayjs.extend(localizedPlugin)
-dayjs.locale('es')
+import { dayjs, formatDate } from '@/utils/dayjs'
 
 const { post } = Astro.props as { post: (typeof postsWithPhotos)[number] }
 ---
 
 <footer class="footer">
   <a href={`/${post.id}/`}>
-    <span class="publishDate">
-      {dayjs(post.data.pubDate).format('ll')}
-    </span>
+    <time datetime={dayjs(post.data.pubDate).toISOString()} class="publishDate">
+      {formatDate(post.data.pubDate)}
+    </time>
   </a>
 
   {
