@@ -39,12 +39,12 @@ const photoSchema = articleSchema.extend({
 const postSchema = articleSchema.merge(photoSchema)
 
 const articles = defineCollection({
-  loader: glob({ base: './src/content/articles', pattern: '**/*.{md,mdx}' }),
+  loader: glob({ base: './src/content', pattern: 'articles/**/*.{md,mdx}' }),
   schema: () => articleSchema
 })
 
 const photos = defineCollection({
-  loader: glob({ base: './src/content/photos', pattern: '**/*.{md,mdx}' }),
+  loader: glob({ base: './src/content', pattern: 'photos/**/*.{md,mdx}' }),
   schema: () => photoSchema
 })
 

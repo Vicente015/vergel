@@ -11,6 +11,8 @@ const pages = Object.fromEntries(
   collectionEntries.map(({ id, data }) => [id.replace(/\.(md|mdx)$/, ''), data])
 )
 
+console.debug(collectionEntries, pages)
+
 export const { getStaticPaths, GET } = OGImageRoute({
   param: 'route',
   pages,
