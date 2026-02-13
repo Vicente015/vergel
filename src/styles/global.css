@@ -105,7 +105,7 @@
 }
 
 /* Light Mode (Explicit) */
-html.light {
+html:not(.dark) {
   --bg: var(--color-paper);
   --bg-secondary: var(--color-paper-02);
   --bg-tertiary: var(--color-paper-03);
