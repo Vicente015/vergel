@@ -32,7 +32,7 @@ const posts = await getCollection('posts')
 
 const postsWithPhotos = posts.map((post) => ({
   ...post,
-  photos: post.data.noPhotos === true ? [] : photosEntries.filter(([photo]) =>
+  photos: post.data.noPhotos === true ? [] : photosEntries.reverse().filter(([photo]) =>
     post.rendered!.metadata!.imagePaths.map(getFilename).includes(photo)
  // || post.data.
   )
