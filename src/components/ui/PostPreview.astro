@@ -27,14 +27,20 @@ const preview = lines.slice(0, 5).join('\n')
     </a>
   </header>
 
-  <main class="summary">
-    <p><span class="title">{post.data.title}</span> {preview}</p>
-  </main>
+  <a href={`/${post.id}/`} class="hidden-link">
+    <main class="summary">
+      <p><span class="title">{post.data.title}</span> {preview}</p>
+    </main>
+  </a>
 
   <PostFooter post={post} />
 </article>
 
 <style>
+  .hidden-link {
+    text-decoration: none;
+  }
+
   .icon {
     display: inline-block;
     width: 1em;
@@ -131,7 +137,7 @@ const preview = lines.slice(0, 5).join('\n')
       }
 
       color: var(--text-primary);
-      font-weight: 700;
+      font-weight: 600;
       font-size: var(--font-size-m);
       -webkit-line-clamp: 3;
       text-wrap: pretty;
@@ -139,6 +145,7 @@ const preview = lines.slice(0, 5).join('\n')
       overflow-wrap: break-word;
       margin: 0;
       padding: 0;
+      letter-spacing: var(--spacing-l);
     }
 
     & .summary {

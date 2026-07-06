@@ -13,6 +13,7 @@ const articleSchema = z.object({
   pubDate: z.coerce.date(),
 
   // ? Optionals
+  noPhotos: z.coerce.boolean().optional().default(false),
   summary: z.string().optional(),
   category: z.string().optional(),
   visibility: z.enum(['public', 'private']).default('public').optional(),

@@ -1,6 +1,5 @@
 @import './fonts.css';
 @import './post.css';
-@import url('https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Instrument+Serif:ital@0;1&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 @custom-media --mobile (min-width: 320px);
 @custom-media --tablet (min-width: 768px);
@@ -13,15 +12,14 @@
 
   /* Typography */
   --sans: var(--font-sans);
-  --serif: 'Inclusive Sans';
-  --mono:
-    SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
-    monospace --font-sans: 'Adwaita Sans', 'Inter', system-ui;
+  --serif: var(--font-serif);
+  --mono: var(--font-mono)
 
-  --font-ui: 'Adwaita Sans', 'Inter', system-ui, sans-serif;
-  --font-sans: 'Atkinson Hyperlegible', 'Inclusive Sans';
+  --font-ui: 'Inter', system-ui, sans-serif;
+  --font-sans: 'Inclusive Sans', sans-serif;
   --font-serif-title: 'Instrument Serif', serif;
   --font-serif: 'Cardo', serif;
+  --font-mono: 'Iosevka Charon Mono', monospace;
 
   --font-size-s: 0.8125rem;
   --font-size-m: 1.0375rem;
@@ -320,4 +318,12 @@ main {
   .smooth-corners-lg {
     mask-border: var(--base64Mask3x) 49% fill / 75px;
   }
+}
+
+time, .reading-time {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'zero' 1;
+  font-weight: 400;
+  letter-spacing: var(--spacing-l);
 }

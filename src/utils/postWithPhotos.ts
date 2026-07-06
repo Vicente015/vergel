@@ -1,7 +1,7 @@
+import { getCollection } from 'astro:content'
 import exifr from 'exifr'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { getPosts } from './posts'
 
 // Get the project root directory (works in both dev and build)
 const getProjectRoot = () => {
@@ -19,8 +19,7 @@ const getProjectRoot = () => {
 
 const projectRoot = getProjectRoot()
 
-const getFilename = (path: string) =>
-  path.replaceAll('../content/media/', '').replaceAll('../media/', '')
+const getFilename = (path: string) => path.replace(/^.*[\\/]/, '')
 
 const photos = import.meta.glob<{ default: ImageMetadata }>(
   '../content/media/**/**/**/*.{jpeg,jpg,png,gif,webp}'
@@ -29,18 +28,15 @@ const photosEntries = Object.entries(photos).map(
   ([path, file]) => [getFilename(path), file] as [string, () => Promise<{ default: ImageMetadata }>]
 )
 
-const posts = await getPosts()
+const posts = await getCollection('posts')
 
-const postsWithPhotos = posts
-  .map((post) => ({
-    ...post,
-    photos: photosEntries.filter(
-      ([photo]) =>
-        post.rendered!.metadata!.imagePaths.map(getFilename).includes(photo) ||
-        post.data.photo?.find((p) => p.url.includes(photo))
-    )
-  }))
-  .filter((post) => post.photos.length > 0)
+const postsWithPhotos = posts.map((post) => ({
+  ...post,
+  photos: post.data.noPhotos === true ? [] : photosEntries.filter(([photo]) =>
+    post.rendered!.metadata!.imagePaths.map(getFilename).includes(photo)
+ // || post.data.
+  )
+}))
 
 type PhotoMetadata = {
   Camera: string

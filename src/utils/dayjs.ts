@@ -6,6 +6,6 @@ import('dayjs/locale/es')
 dayjs.extend(localizedPlugin)
 dayjs.locale('es')
 
-const formatDate = (date: Date) => dayjs(date).format('ll')
+const formatDate = (date: Date) => dayjs(date).format('LL')
 
 export { dayjs, formatDate }

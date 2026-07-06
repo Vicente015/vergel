@@ -1,23 +1,23 @@
 {
   "name": "astro-chiri",
-  "type": "module",
   "version": "1.0.0",
   "license": "MIT",
+  "type": "module",
   "scripts": {
-    "dev": "astro dev",
+    "astro": "astro",
     "prebuild": "pnpm exec tsx scripts/toggle-proxy.ts",
     "build": "pnpm run prebuild && astro build",
-    "start": "node ./dist/server/entry.mjs",
-    "preview": "astro preview",
-    "astro": "astro",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "dev": "astro dev",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "new": "tsx scripts/new-post.ts",
-    "update-theme": "tsx scripts/update-theme.ts",
+    "preview": "astro preview",
+    "push": "git push --recurse-submodules=on-demand",
+    "start": "node ./dist/server/entry.mjs",
     "update-content": "git submodule update --remote --force --recursive",
-    "push": "git push --recurse-submodules=on-demand"
+    "update-theme": "tsx scripts/update-theme.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",
@@ -62,5 +62,12 @@
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.45.0"
+  },
+  "engines": {
+    "node": "^24",
+    "pnpm": "^11"
+  },
+  "volta": {
+    "node": "24.18.0"
   }
 }

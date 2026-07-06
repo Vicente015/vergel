@@ -3,7 +3,6 @@ import IndexLayout from '@/layouts/IndexLayout.astro'
 import About from '@/components/widgets/About.astro'
 import PostList from '@/components/widgets/PostList.astro'
 import { themeConfig } from '@/config'
-import { getPosts } from '@/utils/posts'
 import SubscribeButton from '@/components/ui/SubscribeButton.astro'
 import Navbar from '@/components/ui/Navbar.astro'
 import { postsWithPhotos } from '@/utils/postWithPhotos'
@@ -36,8 +35,8 @@ const posts = postsWithPhotos
   .nav {
     display: flex;
     align-items: start;
-    justify-content: space-between;
     flex-wrap: wrap;
+    justify-content: space-between;
     margin-top: 1rem;
     gap: 0.5rem;
     margin-bottom: 0.8rem;
