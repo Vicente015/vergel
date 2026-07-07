@@ -3,8 +3,8 @@ import type { ThemeConfig } from './types'
 export const themeConfig: ThemeConfig = {
   // SITE INFO ///////////////////////////////////////////////////////////////////////////////////////////
   site: {
-    website: 'https://vicente.computer/', // Site domain
-    title: 'vicente.computer', // Site title
+    website: 'https://vicente015.dev/', // Site domain
+    title: 'vicente015.dev', // Site title
     author: 'Vicente', // Author name
     description: 'Abrazando Internet', // Site description
     language: 'es-ES' // Default language
