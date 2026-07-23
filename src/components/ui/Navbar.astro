@@ -31,7 +31,11 @@ const currentPath = Astro.url.pathname
     {
       feeds.map((feed) => (
         <li class="navbar-item">
-          <a class="navbar-link" href={feed.path} data-active={currentPath === feed.path}>
+          <a
+            class="navbar-link"
+            href={feed.path}
+            data-active={decodeURI(currentPath.trim()) === feed.path.trim()}
+          >
             {feed.name}
           </a>
         </li>
