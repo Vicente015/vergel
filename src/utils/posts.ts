@@ -11,6 +11,7 @@ export const filterOutDraftPosts = (post: PostType) =>
 
 const processPost = (post: PostType) => ({
   ...post,
+  id: post.data?.slug || post.id,
   data: {
     ...post.data,
     title:

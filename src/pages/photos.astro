@@ -1,4 +1,5 @@
 ---
+import About from '@/components/widgets/About.astro'
 import Navbar from '@/components/ui/Navbar.astro'
 import PostFooter from '@/components/ui/PostFooter.astro'
 import SubscribeButton from '@/components/ui/SubscribeButton.astro'
@@ -6,11 +7,15 @@ import IndexLayout from '@/layouts/IndexLayout.astro'
 import { getPhotosWithMetadata, postsWithPhotos } from '@/utils/postWithPhotos'
 import { ApertureIcon, CameraIcon, TimerIcon } from '@lucide/astro'
 import { Picture } from 'astro:assets'
+import { themeConfig } from '@/config'
 
 const photosWithMetadata = await getPhotosWithMetadata()
+const postsWithoutHiddenPhotos = postsWithPhotos.filter((post) => !post.data.noPhotos)
 ---
 
-<IndexLayout>
+<IndexLayout title={`Fotos — ${themeConfig.site.title}`} description={themeConfig.site.description}>
+  <About />
+
   <div class="nav">
     <Navbar />
     <SubscribeButton />
@@ -18,7 +23,7 @@ const photosWithMetadata = await getPhotosWithMetadata()
 
   <main>
     {
-      postsWithPhotos.map((post) => (
+      postsWithoutHiddenPhotos.map((post) => (
         <div class="Photo__post">
           <div class="Photo__gallery">
             {post.photos.map(([filename, mod]) => (

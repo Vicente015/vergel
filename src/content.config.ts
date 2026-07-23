@@ -9,6 +9,7 @@ const locationSchema = z.object({
 })
 
 const articleSchema = z.object({
+
   title: z.string(),
   pubDate: z.coerce.date(),
 
@@ -24,7 +25,10 @@ const articleSchema = z.object({
 
   // ? Custom
   image: z.string().optional(),
-  likes: z.number().optional()
+  likes: z.number().optional(),
+
+  // ? Customized slug
+  slug: z.string().optional()
 })
 
 const photoSchema = articleSchema.extend({

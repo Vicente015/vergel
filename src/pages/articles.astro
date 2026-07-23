@@ -1,14 +1,21 @@
 ---
+import About from '@/components/widgets/About.astro'
 import Navbar from '@/components/ui/Navbar.astro'
 import SubscribeButton from '@/components/ui/SubscribeButton.astro'
 import IndexLayout from '@/layouts/IndexLayout.astro'
 import PostList from '@/components/widgets/PostList.astro'
 import { getArticles } from '@/utils/articles'
+import { themeConfig } from '@/config'
 
 const posts = await getArticles()
 ---
 
-<IndexLayout>
+<IndexLayout
+  title={`Artículos — ${themeConfig.site.title}`}
+  description={themeConfig.site.description}
+>
+  <About />
+
   <div class="nav">
     <Navbar />
     <SubscribeButton />
