@@ -23,7 +23,11 @@ const feeds: FeedType[] = [
   }
 ]
 
-const currentPath = Astro.url.pathname
+const normalize = (path: string) => path.replace(/\/+$/, '') || '/'
+
+const currentPath = normalize(decodeURI(Astro.url.pathname))
+
+const isActive = (href: string) => normalize(href) === currentPath
 ---
 
 <nav class="navbar">
@@ -31,11 +35,7 @@ const currentPath = Astro.url.pathname
     {
       feeds.map((feed) => (
         <li class="navbar-item">
-          <a
-            class="navbar-link"
-            href={feed.path}
-            data-active={decodeURI(currentPath.trim()) === feed.path.trim()}
-          >
+          <a class="navbar-link" href={feed.path} data-active={isActive(feed.path)}>
             {feed.name}
           </a>
         </li>

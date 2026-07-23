@@ -18,6 +18,7 @@ import path from 'path'
 import node from '@astrojs/node';
 
 export default defineConfig({
+  trailingSlash: 'never',
   adapter: node({
     mode: 'standalone'
   }),
