@@ -56,3 +56,8 @@ const imageUrl = ogImage ? new URL(ogImage, Astro.url) : new URL('/og/chiri-og.p
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={imageUrl} />
+
+<!-- Indiekit -->
+<link rel="micropub" href="https://turnip.vicente015.dev/micropub" />
+<link rel="authorization_endpoint" href="https://turnip.vicente015.dev/auth" />
+<link rel="token_endpoint" href="https://turnip.vicente015.dev/auth/token" />
